@@ -65,8 +65,8 @@ def handle_simulated_message(store_id: int, body: SimulateInbound) -> AgentReply
             agent="orchestrator",
             reply_text=(
                 f"🎤 Transcribed: “{transcript}”\n\n"
-                "Noted — I'm tracking the Beras Premium increase and will flag a "
-                "cheaper verified supplier."
+                "Oke, aku catat ya — dari catatan harga kita, Beras Premium memang "
+                "lagi naik. Nanti aku cek supplier verified yang lebih murah."
             ),
         )
     if body.message_type == "image":

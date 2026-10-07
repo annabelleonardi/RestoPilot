@@ -31,7 +31,7 @@ const SCRIPT: ChatMessage[] = [
     caption: "A draft order is proposed — nothing is ever ordered without the owner's approval.",
   },
   {
-    id: 5, from: "owner", kind: "text", time: "08:05", text: "Yes",
+    id: 5, from: "owner", kind: "text", time: "08:05", text: "ya",
     caption: "The owner approves by replying 'ya' — that's the whole flow.",
   },
   {
@@ -63,7 +63,7 @@ const SCRIPT: ChatMessage[] = [
   },
   {
     id: 12, from: "bot", kind: "card", time: "08:15",
-    text: "🎤 Transcribed: “Bu, beras naik lagi jadi 14.200 per kilo, kata Toko Berkat Jaya. Stok cabai juga tinggal sedikit.”\n\nNoted — I'm tracking the Beras Premium increase and will flag a cheaper verified supplier.",
+    text: "🎤 Transcribed: “Bu, beras naik lagi jadi 14.200 per kilo, kata Toko Berkat Jaya. Stok cabai juga tinggal sedikit.”\n\nOke, aku catat ya — dari catatan harga kita, Beras Premium memang lagi naik. Nanti aku cek supplier verified yang lebih murah.",
     caption: "Voice notes are transcribed and flow through the same pipeline.",
   },
   {
