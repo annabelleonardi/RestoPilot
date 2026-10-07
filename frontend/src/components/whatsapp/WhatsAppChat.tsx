@@ -27,7 +27,7 @@ const SCRIPT: ChatMessage[] = [
   },
   {
     id: 4, from: "bot", kind: "card", time: "08:03",
-    text: "🛒 Draft purchase order: 50 kg Beras Premium from Toko Sumber Rejeki — Rp670.000.\nReply YES to confirm, or NO to keep Berkat Jaya.",
+    text: "🛒 Draft purchase order: 50 kg Beras Premium from Toko Sumber Rejeki — Rp670.000.\nReply ya to confirm, or no to keep Berkat Jaya.",
     caption: "A draft order is proposed — nothing is ever ordered without the owner's approval.",
   },
   {
