@@ -48,11 +48,12 @@ make build        # frontend production build
 ## Things to try
 
 - **Dashboard**: approve the pending order in "Needs your approval" — a supplier payment appears in the cash-flow view.
-- **WhatsApp demo chat**: step through the scripted invoice flow (thermal receipt + handwritten nota, English captions), or flip on **live mode** and type:
+- **WhatsApp demo chat**: step through the full scripted story — invoice photo → price-spike audit → "ya" approval, then a typed quick-log purchase and a voice note (English captions throughout). Or flip on **live mode** and try:
   - `beli cabai 3 kg 150rb` → quick-log purchase, per-kg price reply, +13.6% spike opens a draft order
   - `ya` → approves it; the PO lands in the payments list
   - `beli beras` → the agent asks for the missing price instead of guessing
-  - `stok` / `harga supplier` / `menu` / `ulasan` → real store-scoped reports
+  - the 🎤 button → sends a voice note (transcription mocked in demo mode)
+  - `stok` / `harga supplier` / `menu` / `ulasan` / `konten plan` → real store-scoped reports
 - **Invoice photo**: send the demo receipt image — OCR parse, price audit vs 30-day baseline, stock + price history updates.
 
 ## Tests
