@@ -9,7 +9,9 @@ import WhatsAppDemo from "./pages/WhatsAppDemo";
 
 export default function App() {
   return (
-    <BrowserRouter>
+    // BASE_URL is "/" in dev but "/RestoPilot/" in the Pages CI build
+    // (npm run build -- --base=/RestoPilot/), so one line serves both.
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <Routes>
         <Route element={<AppLayout />}>
           <Route path="/" element={<Dashboard />} />
