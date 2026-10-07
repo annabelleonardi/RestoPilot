@@ -13,3 +13,6 @@ dist/
 # Misc
 .DS_Store
 *.log
+
+# Working drafts kept out of the repo until final
+RestoPilot Project Proposal.pdf

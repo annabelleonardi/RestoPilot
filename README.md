@@ -5,6 +5,10 @@ AI operations copilot for small, owner-run Indonesian restaurants. Two surfaces,
 - **WhatsApp** — the action surface: invoice photos, quick-log purchases (`beli cabai 3 kg 150rb`), stock/price/menu/review reports, and approvals ("ya" / "tidak")
 - **Web dashboard** — the monitoring surface: KPIs, inventory, supplier prices, payments, and a "Needs your approval" work queue (HITL confirmations)
 
+## Live prototype
+
+- **Dashboard (static demo):** https://annabelleonardi.github.io/RestoPilot/ — always-on, renders the bundled demo dataset. Approval actions and live WhatsApp chat are staged here (no backend on static hosting) — run locally for the full interactive loop.
+
 ## Stack
 
 - **Backend**: FastAPI + SQLAlchemy 2.0 + SQLite. `MOCK_MODE` gates all external integrations (StepFun OCR/LLM, WhatsApp send) — mock and real paths share response shapes.
