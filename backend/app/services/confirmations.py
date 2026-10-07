@@ -16,7 +16,7 @@ from sqlalchemy.orm import Session
 
 from app.core.timeutil import store_now, to_utc_naive
 from app.integrations import whatsapp_client
-from app.models import Confirmation, Payment, Store
+from app.models import Confirmation, Payment, Store, Supplier
 
 # TODO(real WhatsApp): the OWNER approves here; the supplier only enters the
 # flow when the PO is actually sent to them. Once real WhatsApp lands, an
@@ -85,6 +85,12 @@ def resolve_confirmation(
 
     payload = json.loads(confirmation.payload_json or "{}")
     if approved and confirmation.action_type == "place_order":
+        # Due date follows the supplier's agreed payment terms (net-7/net-14/...),
+        # falling back to a week when the draft has no resolvable supplier.
+        supplier = (
+            db.get(Supplier, payload["supplier_id"]) if payload.get("supplier_id") else None
+        )
+        terms_days = supplier.payment_terms_days if supplier else 7
         db.add(
             Payment(
                 store_id=store.id,
@@ -94,7 +100,7 @@ def resolve_confirmation(
                     f"{payload.get('ingredient', '')} ({payload.get('supplier_name', 'supplier')})"
                 ).strip(),
                 amount=payload.get("quantity", 0) * payload.get("unit_price", 0),
-                due_date=store_now(store).date() + timedelta(days=7),
+                due_date=store_now(store).date() + timedelta(days=terms_days),
                 status="pending",
             )
         )

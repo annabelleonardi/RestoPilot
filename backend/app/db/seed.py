@@ -58,12 +58,13 @@ def _seed(db: Session) -> None:
             name=name,
             category=category,
             phone=phone,
+            payment_terms_days=terms,
             is_verified=True,
         )
-        for name, category, phone in [
-            ("Toko Berkat Jaya", "Dry goods", "+62-813-1111-1111"),
-            ("Toko Sumber Rejeki", "Rice & grains", "+62-813-2222-2222"),
-            ("UD Pasar Segar", "Fresh produce", "+62-813-3333-3333"),
+        for name, category, phone, terms in [
+            ("Toko Berkat Jaya", "Dry goods", "+62-813-1111-1111", 7),
+            ("Toko Sumber Rejeki", "Rice & grains", "+62-813-2222-2222", 14),
+            ("UD Pasar Segar", "Fresh produce", "+62-813-3333-3333", 7),
         ]
     ]
     db.add_all([berkat, sumber_rejeki, pasar_segar])

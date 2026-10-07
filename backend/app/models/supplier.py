@@ -16,6 +16,8 @@ class Supplier(Base):
     name: Mapped[str] = mapped_column(String(120))
     category: Mapped[str] = mapped_column(String(80), default="")
     phone: Mapped[str] = mapped_column(String(32), default="")
+    # Agreed payment terms in days (net-7, net-14, ...) — drives Payment due dates.
+    payment_terms_days: Mapped[int] = mapped_column(default=7)
     is_verified: Mapped[bool] = mapped_column(Boolean, default=False)
     created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
 
