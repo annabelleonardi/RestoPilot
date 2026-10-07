@@ -22,13 +22,13 @@ const SCRIPT: ChatMessage[] = [
   },
   {
     id: 3, from: "bot", kind: "card", time: "08:02",
-    text: "🔺 Price alert — Beras Premium is +2.2% above your 30-day average.\n💡 Toko Sumber Rejeki (verified) offers Rp13.400/kg — saves Rp40.000 per 50 kg.",
-    caption: "Every unit price is audited against the 30-day average, with cheaper verified suppliers.",
+    text: "🔺 Price alert — Telur Ayam naik ke Rp28.500/kg: +16.3% vs rata-rata 30 hari.\nStok tinggal 4 kg (reorder di 6 kg) — perlu pesan lagi minggu ini.",
+    caption: "Every unit price is audited against her own 30-day history — and it knows she's below the reorder point.",
   },
   {
     id: 4, from: "bot", kind: "card", time: "08:03",
-    text: "🛒 Draft purchase order: 50 kg Beras Premium from Toko Sumber Rejeki — Rp695.000 (harga terakhir Rp13.900/kg).\nReply ya to confirm, or no to keep Berkat Jaya.",
-    caption: "A draft order is proposed — nothing is ever ordered without the owner's approval.",
+    text: "🛒 Draft pesanan: 10 kg Telur Ayam dari Toko Berkat Jaya — Rp285.000 (harga baru).\nBalas ya untuk setuju, atau no untuk batalkan.",
+    caption: "The draft is her NEXT order — today's eggs are already delivered; this plans the reorder, committing nothing without her approval.",
   },
   {
     id: 5, from: "owner", kind: "text", time: "08:05", text: "ya",
@@ -36,7 +36,7 @@ const SCRIPT: ChatMessage[] = [
   },
   {
     id: 6, from: "bot", kind: "card", time: "08:05",
-    text: "✅ PO dicatat — pembayaran masuk daftar tagihan di dashboard.",
+    text: "✅ Siap! Pesanan Telur Ayam disetujui — PO dicatat, pembayaran masuk daftar tagihan di dashboard.",
     caption: "Order recorded — the payment now sits in the bills list on the dashboard.",
   },
   {
