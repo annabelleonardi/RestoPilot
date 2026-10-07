@@ -1,0 +1,10 @@
+@import "tailwindcss";
+
+:root {
+  --wa-green: #25d366;
+  --wa-teal: #075e54;
+}
+
+html {
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+}
