@@ -167,12 +167,12 @@ export default function WhatsAppChat() {
       <div className="overflow-hidden rounded-[2.2rem] border-[10px] border-slate-800 bg-[#ECE5DD] shadow-2xl">
         <header className="flex items-center gap-3 bg-[#075E54] px-4 py-3 text-white">
           <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white/20 text-sm font-bold">
-            WB
+            RP
           </div>
           <div className="min-w-0">
-            <p className="truncate text-sm font-semibold">Warung Bu Sari</p>
+            <p className="truncate text-sm font-semibold">RestoPilot Assistant</p>
             <p className="text-[11px] text-white/70">
-              RestoPilot Assistant · {live ? "live backend" : "online"}
+              {live ? "live backend" : "online"}
             </p>
           </div>
         </header>
@@ -243,7 +243,9 @@ export default function WhatsAppChat() {
 }
 
 function Bubble({ msg }: { msg: ChatMessage }) {
-  const mine = msg.from === "bot";
+  // Owner's phone POV: the owner's own messages sit right (green, outgoing),
+  // the RestoPilot agent replies left (white, incoming) — like real WhatsApp.
+  const mine = msg.from === "owner";
   return (
     <div className={`flex ${mine ? "justify-end" : "justify-start"}`}>
       <div className={`flex max-w-[85%] flex-col gap-0.5 ${mine ? "items-end" : "items-start"}`}>
