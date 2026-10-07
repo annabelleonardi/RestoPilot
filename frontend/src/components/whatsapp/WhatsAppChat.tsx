@@ -63,7 +63,7 @@ const SCRIPT: ChatMessage[] = [
   },
   {
     id: 12, from: "bot", kind: "card", time: "08:15",
-    text: "🎤 Transcribed: “Bu, baru beli gula pasir 5 kilo 80 ribu.”\n\n✅ Gula Pasir 5 kg dicatat — Rp80.000 (±Rp16.000/kg). Stok diperbarui ya.",
+    text: "🎤 Transcribed: “Baru beli gula pasir 5 kilo 80 ribu.”\n\n✅ Gula Pasir 5 kg dicatat — Rp80.000 (±Rp16.000/kg). Stok diperbarui ya.",
     caption: "Voice → text → the same engine: a spoken purchase is logged like a typed one.",
   },
   {
