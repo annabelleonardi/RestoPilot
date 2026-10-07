@@ -40,7 +40,34 @@ const SCRIPT: ChatMessage[] = [
     caption: "Order recorded — the payment now sits in the bills list on the dashboard.",
   },
   {
-    id: 7, from: "bot", kind: "voice", time: "08:21",
+    id: 7, from: "owner", kind: "text", time: "08:12", text: "beli cabai 3 kg 150rb",
+    caption: "Market runs have no invoices — the owner just types the purchase in plain Bahasa.",
+  },
+  {
+    id: 8, from: "bot", kind: "card", time: "08:12",
+    text: "✅ Cabai Merah 3 kg dicatat — Rp150.000 (±Rp50.000/kg). Stok diperbarui ya.\n\n⚠️ Harga naik 13.6% vs rata-rata 30 hari.\nSudah kusiapkan draft pesanan — approve di dashboard ya.",
+    caption: "Same engine as invoices: per-unit price computed, stock updated, spike flagged.",
+  },
+  {
+    id: 9, from: "owner", kind: "text", time: "08:13", text: "ya",
+    caption: "Approves the draft right in chat — human-in-the-loop, zero friction.",
+  },
+  {
+    id: 10, from: "bot", kind: "card", time: "08:13",
+    text: "✅ Siap! Pesanan Cabai Merah disetujui — PO dicatat, pembayaran masuk daftar tagihan di dashboard.",
+    caption: "Same HITL flow as the invoice spike — chat and dashboard stay in sync.",
+  },
+  {
+    id: 11, from: "owner", kind: "voice", time: "08:15", text: "Voice note · 0:07",
+    caption: "Hands full? The owner can just talk (transcription is mocked in this demo).",
+  },
+  {
+    id: 12, from: "bot", kind: "card", time: "08:15",
+    text: "🎤 Transcribed: “Bu, beras naik lagi jadi 14.200 per kilo, kata Toko Berkat Jaya. Stok cabai juga tinggal sedikit.”\n\nNoted — I'm tracking the Beras Premium increase and will flag a cheaper verified supplier.",
+    caption: "Voice notes are transcribed and flow through the same pipeline.",
+  },
+  {
+    id: 13, from: "bot", kind: "voice", time: "08:21",
     text: "☀️ Daily summary · 0:28 — “Penjualan hari ini Rp4,28 juta, margin 59,5%. Cabai merah perlu di-reorder besok. Satu balasan ulasan menunggu persetujuan Anda.”",
     caption: "Every morning: a 30-second voice digest of sales, stock, and what needs attention.",
   },
@@ -99,7 +126,7 @@ export default function WhatsAppChat() {
   }, [visible, typing, liveMessages, liveBusy]);
 
   const sendLive = async (opts: {
-    kind: "text" | "image";
+    kind: "text" | "image" | "voice";
     text: string;
     variant?: ReceiptVariant;
   }) => {
@@ -117,7 +144,9 @@ export default function WhatsAppChat() {
     const body =
       opts.kind === "image"
         ? { message_type: "image", media_url: "demo-photo" }
-        : { message_type: "text", text: opts.text };
+        : opts.kind === "voice"
+          ? { message_type: "audio", media_url: "demo-voice" }
+          : { message_type: "text", text: opts.text };
     const reply = await postJson<AgentReply>("/whatsapp/simulate", body, LIVE_FALLBACK);
     setLiveMessages((m) => [
       ...m,
@@ -203,11 +232,19 @@ export default function WhatsAppChat() {
               </button>
             </div>
             <div className="flex items-center gap-2">
+              <button
+                onClick={() => void sendLive({ kind: "voice", text: "Voice note · 0:07" })}
+                disabled={liveBusy}
+                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white text-[#075E54] shadow-sm transition hover:bg-slate-50 disabled:opacity-50"
+                aria-label="Send voice note"
+              >
+                <Mic size={16} />
+              </button>
               <input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && submitInput()}
-                placeholder="Try 'ya', 'tidak', 'stok'…"
+                placeholder="Try 'beli cabai 3 kg 150rb', 'ya', 'stok'…"
                 className="flex-1 rounded-full bg-white px-4 py-2 text-sm text-slate-700 outline-none placeholder:text-slate-400"
               />
               <button
