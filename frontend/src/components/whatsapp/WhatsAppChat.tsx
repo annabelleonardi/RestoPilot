@@ -17,13 +17,13 @@ const SCRIPT: ChatMessage[] = [
   },
   {
     id: 2, from: "bot", kind: "card", time: "08:02",
-    text: "🧾 Invoice parsed — Toko Berkat Jaya #TBJ-2026-0413\n• Beras Premium 50 kg × Rp14.200\n• Minyak Goreng 20 L × Rp17.500\n• Telur Ayam 10 kg × Rp28.500\nTotal: Rp1.345.000",
+    text: "🧾 Faktur tercatat — Toko Berkat Jaya #TBJ-2026-0413\n• Beras Premium — 50 kg × Rp14.200\n• Minyak Goreng — 20 L × Rp17.500\n• Telur Ayam — 10 kg × Rp28.500\nTotal: Rp1.345.000",
     caption: "OCR reads the bill — three line items, Rp1.345.000 total, logged with zero typing.",
   },
   {
     id: 3, from: "bot", kind: "card", time: "08:02",
-    text: "🔺 Price alert — Telur Ayam naik ke Rp28.500/kg: +16.3% vs rata-rata 30 hari.\nStok tinggal 4 kg (reorder di 6 kg) — perlu pesan lagi minggu ini.",
-    caption: "Every unit price is audited against her own 30-day history — and it knows she's below the reorder point.",
+    text: "⚠️ Harga melonjit: Telur Ayam — Rp28.500/kg (+16.3% vs rata-rata 30 hari).\nAku siapkan draft pesanan dulu ya.",
+    caption: "Every unit price is audited against her own 30-day history — the spike triggers a prepared draft, never an auto-order.",
   },
   {
     id: 4, from: "bot", kind: "card", time: "08:03",
@@ -68,7 +68,7 @@ const SCRIPT: ChatMessage[] = [
   },
   {
     id: 13, from: "bot", kind: "voice", time: "08:21",
-    text: "☀️ Daily summary · 0:28 — “Penjualan hari ini Rp4,28 juta, margin 59,5%. Cabai merah perlu di-reorder besok. Satu balasan ulasan menunggu persetujuan Anda.”",
+    text: "☀️ Daily summary · 0:28 — “Penjualan hari ini Rp2,75 juta, margin 60,4%. Cabai merah perlu di-reorder besok.”",
     caption: "Every morning: a 30-second voice digest of sales, stock, and what needs attention.",
   },
 ];
