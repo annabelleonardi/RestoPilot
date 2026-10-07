@@ -99,3 +99,38 @@ def detect_intent(text: str) -> str | None:
         # LLM problems must never block the owner — keywords still route the message.
         logger.exception("Intent classification failed; falling back to keywords")
         return None
+
+
+_CONTENT_PROMPT = (
+    "Kamu asisten konten untuk warung makan kecil di Indonesia. Buat rencana konten "
+    "mingguan: TIGA baris pendek dalam Bahasa Indonesia informal, format "
+    "'• Hari: Jenis — ide', campuran reels/post/story yang terkait menu warung. "
+    "Balas HANYA tiga baris bullet itu."
+)
+
+
+def generate_content_plan(store_name: str) -> str | None:
+    """Weekly content ideas (Bahasa) for the marketing agent; None means 'use the canned fallback'."""
+    settings = get_settings()
+    if settings.mock_mode or not settings.stepfun_api_key:
+        return None
+    try:
+        response = httpx.post(
+            f"{settings.stepfun_base_url}/chat/completions",
+            headers={"Authorization": f"Bearer {settings.stepfun_api_key}"},
+            json={
+                "model": _LLM_MODEL,
+                "messages": [
+                    {"role": "user", "content": f"{_CONTENT_PROMPT}\n\nNama warung: {store_name}"}
+                ],
+                "temperature": 0.7,
+            },
+            timeout=15.0,
+        )
+        response.raise_for_status()
+        text = response.json()["choices"][0]["message"]["content"].strip()
+        return text or None
+    except Exception:
+        # LLM problems must never block the owner — the canned fallback still ships.
+        logger.exception("Content plan generation failed; using canned fallback")
+        return None

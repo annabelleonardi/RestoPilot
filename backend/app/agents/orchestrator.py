@@ -34,7 +34,7 @@ _KEYWORD_INTENTS = (
     (("harga", "supplier", "price"), "price"),
     (("ulasan", "review", "feedback"), "review"),
     (("menu", "penjualan", "sales"), "menu"),
-    (("marketing", "konten", "promo", "iklan"), "marketing"),
+    (("marketing", "konten", "promosi", "media sosial"), "marketing"),
 )
 
 _INTENT_AGENTS = {
