@@ -62,11 +62,21 @@ _QTY_TOKEN = re.compile(
 
 _RB_MULTIPLES = {"rb": 1000.0, "rebu": 1000.0, "ribu": 1000.0, "k": 1000.0}
 
+# Owner-realistic noise: trailing punctuation ("... 150rb.") and a leading
+# vocative ("Bu, baru beli ...") — voice transcripts almost always carry one.
+_TRAILING_PUNCT = " .,!?"
+_LEAD_VOCATIVE = re.compile(r"^(?:bu|pak|mas|mbak|halo|hei|hi)\s*[,:]*\s*", re.IGNORECASE)
+
+
+def _normalize(text: str) -> str:
+    t = text.strip().rstrip(_TRAILING_PUNCT)
+    return _LEAD_VOCATIVE.sub("", t, count=1).strip()
+
 
 def looks_like_purchase(text: str) -> bool:
     """True when the message has a purchase verb, or the unmistakable
     qty+item+price shape. Conservative: everything else keeps normal routing."""
-    t = text.strip()
+    t = _normalize(text)
     if _VERB_PREFIX.match(t):
         return True
     head = _QTY_ANCHORED.match(t)
@@ -81,7 +91,7 @@ def parse_purchase(text: str) -> dict | None:
     TOTAL paid (150rb for 3 kg = Rp50.000/kg); per-unit is derived by the
     persistence layer.
     """
-    t = text.strip()
+    t = _normalize(text)
     verb = _VERB_PREFIX.match(t)
     rest = verb.group("rest").strip() if verb else t
 

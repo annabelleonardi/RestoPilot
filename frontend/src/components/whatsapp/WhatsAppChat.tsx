@@ -63,8 +63,8 @@ const SCRIPT: ChatMessage[] = [
   },
   {
     id: 12, from: "bot", kind: "card", time: "08:15",
-    text: "🎤 Transcribed: “Bu, beras naik lagi jadi 14.200 per kilo, kata Toko Berkat Jaya. Stok cabai juga tinggal sedikit.”\n\nOke, aku catat ya — dari catatan harga kita, Beras Premium memang lagi naik. Nanti aku cek supplier verified yang lebih murah.",
-    caption: "Voice notes are transcribed and flow through the same pipeline.",
+    text: "🎤 Transcribed: “Bu, baru beli gula pasir 5 kilo 80 ribu.”\n\n✅ Gula Pasir 5 kg dicatat — Rp80.000 (±Rp16.000/kg). Stok diperbarui ya.",
+    caption: "Voice → text → the same engine: a spoken purchase is logged like a typed one.",
   },
   {
     id: 13, from: "bot", kind: "voice", time: "08:21",

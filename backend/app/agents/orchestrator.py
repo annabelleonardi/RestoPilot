@@ -20,7 +20,7 @@ logger = logging.getLogger(__name__)
 HELP_TEXT = (
     "👋 Hi! I'm RestoPilot, your operations copilot. You can send me:\n"
     "• 📷 A photo of an invoice/receipt — I'll log it and audit prices\n"
-    "• 🎤 A voice note — I'll transcribe it and take notes\n"
+    "• 🎤 A voice note — transcribed, then handled exactly like a text message\n"
     "• 'stok' — low-stock report\n"
     "• 'harga supplier' — supplier price watch\n"
     "• 'menu' — weekly menu performance\n"
@@ -60,19 +60,26 @@ def _keyword_intent(text: str) -> str:
 def handle_simulated_message(store_id: int, body: SimulateInbound) -> AgentReply:
     """Synchronous path used by POST /api/whatsapp/simulate (dashboard chat demo)."""
     if body.message_type == "audio":
+        # Voice is an ingestion path, not a side channel: transcribe → run the
+        # SAME text pipeline (one brain). A spoken purchase gets logged exactly
+        # like a typed one.
         transcript = audio_perception.transcribe_voice_note(body.media_url or "")
+        inner = _handle_text_message(store_id, transcript)
         return AgentReply(
-            agent="orchestrator",
-            reply_text=(
-                f"🎤 Transcribed: “{transcript}”\n\n"
-                "Oke, aku catat ya — dari catatan harga kita, Beras Premium memang "
-                "lagi naik. Nanti aku cek supplier verified yang lebih murah."
-            ),
+            agent=inner.agent,
+            reply_text=f"🎤 Transcribed: “{transcript}”\n\n{inner.reply_text}",
+            requires_confirmation=inner.requires_confirmation,
+            data=inner.data,
         )
     if body.message_type == "image":
         return _handle_invoice_image(store_id, body.media_url)
+    return _handle_text_message(store_id, body.text)
 
-    text = body.text.strip().lower()
+
+def _handle_text_message(store_id: int, raw_text: str) -> AgentReply:
+    """Everything a typed message does — quick-log, corrections, HITL tokens,
+    intent routing. Voice notes reach this same path after transcription."""
+    text = raw_text.strip().lower()
     if not text:
         return AgentReply(reply_text=HELP_TEXT)
 

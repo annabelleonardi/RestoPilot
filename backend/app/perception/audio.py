@@ -2,10 +2,7 @@
 
 from app.core.config import get_settings
 
-MOCK_TRANSCRIPT = (
-    "Bu, beras naik lagi jadi 14.200 per kilo, kata Toko Berkat Jaya. "
-    "Stok cabai juga tinggal sedikit."
-)
+MOCK_TRANSCRIPT = "Bu, baru beli gula pasir 5 kilo 80 ribu."
 
 
 def transcribe_voice_note(media_url: str) -> str:

@@ -18,6 +18,7 @@ from app.db.session import SessionLocal
 from app.integrations import whatsapp_client
 from app.main import app
 from app.models import Confirmation, Ingredient, Invoice, Payment, Store, SupplierPriceLog
+from app.perception.audio import MOCK_TRANSCRIPT
 from app.services import quick_log
 
 
@@ -46,6 +47,18 @@ def test_parse_beli_cabai() -> None:
         "unit": "kg",
         "total_price": 150000.0,
     }
+
+
+def test_parse_tolerates_vocative_and_trailing_punctuation() -> None:
+    """Owner-realistic noise: "Bu, " greeting and a trailing period — how
+    people actually talk and type."""
+    assert quick_log.parse_purchase("bu, beli cabai 3 kg 150rb.") == {
+        "item": "Cabai",
+        "quantity": 3.0,
+        "unit": "kg",
+        "total_price": 150000.0,
+    }
+    assert quick_log.looks_like_purchase("bu, baru beli gula pasir 5 kilo 80 ribu.")
 
 
 def test_parse_baru_beli_liter_plain_price() -> None:
@@ -210,6 +223,34 @@ def test_quick_log_unknown_ingredient_creates_it(client) -> None:
     kemangi = _ingredient("Kemangi")
     assert kemangi.unit == "ikat"
     assert kemangi.current_stock == pytest.approx(2.0)
+
+
+def test_voice_note_is_transcribed_then_logged_like_text(client) -> None:
+    """Voice is an ingestion path: the transcript runs the SAME text pipeline,
+    so a spoken purchase ("baru beli gula pasir 5 kilo 80 ribu") is logged
+    exactly like a typed quick-log."""
+    res = client.post(
+        "/api/whatsapp/simulate",
+        json={"message_type": "audio", "media_url": "demo-voice"},
+    )
+    assert res.status_code == 200
+    body = res.json()
+    assert body["reply_text"].startswith("🎤 Transcribed:")
+    assert MOCK_TRANSCRIPT in body["reply_text"]
+    assert "Gula Pasir 5 kg dicatat — Rp80.000 (±Rp16.000/kg)" in body["reply_text"]
+    assert body["requires_confirmation"] is False
+
+    gula = _ingredient("Gula Pasir")
+    assert gula.unit == "kg"
+    assert gula.current_stock == pytest.approx(5.0)
+    with SessionLocal() as db:
+        invoice = db.scalar(
+            select(Invoice)
+            .where(Invoice.store_id == _store_id(), Invoice.source == "quick_log")
+            .order_by(Invoice.id.desc())
+        )
+        assert invoice is not None
+        assert invoice.total_amount == pytest.approx(80000.0)
 
 
 def test_quick_log_missing_price_asks_and_writes_nothing(client) -> None:

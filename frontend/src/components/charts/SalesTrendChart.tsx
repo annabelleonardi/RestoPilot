@@ -35,9 +35,7 @@ export default function SalesTrendChart({ data }: { data: SalesPoint[] }) {
         <Tooltip
           formatter={(value) => `Rp ${Number(value).toLocaleString("id-ID")}`}
           // Revenue is the headline number — always list it above COGS.
-          itemSorter={(item: { dataKey?: string | number }) =>
-            item.dataKey === "revenue" ? -1 : 1
-          }
+          itemSorter={(item) => (item.dataKey === "revenue" ? -1 : 1)}
         />
         <Area type="monotone" dataKey="revenue" name="Revenue" stroke="#10b981" strokeWidth={2} fill="url(#grad-revenue)" />
         <Area type="monotone" dataKey="cogs" name="COGS" stroke="#f59e0b" strokeWidth={2} fill="url(#grad-cogs)" />
